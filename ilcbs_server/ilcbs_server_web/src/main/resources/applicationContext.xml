@@ -97,6 +97,7 @@
 	<!--组装其它 配置文件-->
 	<!-- shiro 配置文件引入 -->
 	<import resource="classpath:applicationContext-shiro.xml"></import>
+	<import resource="classpath:applicationContext-mail.xml"></import>
 
 
 </beans>

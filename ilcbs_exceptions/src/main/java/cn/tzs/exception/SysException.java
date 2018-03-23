@@ -1,7 +1,9 @@
 package cn.tzs.exception;
 
+
 public class SysException extends Exception {
     private String message;
+
     public String getMessage() {
         return message;
     }
@@ -10,3 +12,4 @@ public class SysException extends Exception {
         this.message = message;
     }
 }
+

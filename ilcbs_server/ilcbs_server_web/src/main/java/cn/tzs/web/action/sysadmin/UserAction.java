@@ -111,8 +111,6 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
     //保存新建用户的操作
     @Action(value = "userAction_insert")
     public String insert() {
-        Md5Hash md5Pwd = new Md5Hash(model.getPassword(), model.getUserName(), 2);
-        model.setPassword(md5Pwd.toString());
         userService.saveOrUpdate(model);
         return "tolist";
     }

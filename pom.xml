@@ -11,8 +11,8 @@
         <module>ilcbs_server</module>
         <module>ilcbs_jms</module>
         <module>ilcbs_utils</module>
-        <module>ilcbs_exception</module>
         <module>ilcbs_cache</module>
+        <module>ilcbs_exceptions</module>
     </modules>
 
     <name>Maven</name>
@@ -409,23 +409,6 @@
     <build>
 
         <!--此处有删减 -->
-        <!--<finalName>sz06</finalName>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.2</version>
-                    <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
-                        <encoding>UTF-8</encoding>
-                        <showWarnings>true</showWarnings>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>-->
-
 
         <resources>
             <resource>
