@@ -63,7 +63,7 @@ public class LoginAction extends BaseAction {
 			subject.login(new UsernamePasswordToken(username,password));// AuthenticationToken 的实现类 UsernamePasswordToken
 			// 认证完成记录保存在session
             User user = (User) subject.getPrincipal();
-            super.put(SysConstant.CURRENT_USER_INFO,user);
+            session.put(SysConstant.CURRENT_USER_INFO,user);
             return SUCCESS;
         } catch (AuthenticationException e) {
             e.printStackTrace();
