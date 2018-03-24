@@ -26,7 +26,8 @@ public class ContractServiceImpl implements ContractService {
 
 	public void saveOrUpdate(Contract contract) {//保存或更新
 		if(UtilFuns.isEmpty(contract.getId())){  //判断是否新增，根据对象id
-
+			contract.setTotalAmount(0.0);	//设置购销合同初始值
+			contract.setState(0);			//设置购销合同初始状态
 		}else{
 			
 		}

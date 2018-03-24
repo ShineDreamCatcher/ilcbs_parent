@@ -39,18 +39,12 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
 
     /**
      * 查看购销合同列表页面
-     *
      */
     @Action(value = "contractAction_list")
     public String list() {
-        Specification specification = new Specification() {
-            @Override
-            public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
-                return cb.equal(root.get("state").as(Integer.class), 1);
-            }
-        };
+
         Pageable pageable = new PageRequest(page.getPageNo() - 1, page.getPageSize());
-        org.springframework.data.domain.Page<Contract> jpaPage = contractService.findPage(specification, pageable);
+        org.springframework.data.domain.Page<Contract> jpaPage = contractService.findPage(null, pageable);
 
         page.setTotalPage(jpaPage.getTotalPages());
         page.setTotalRecord(jpaPage.getTotalElements());
@@ -63,7 +57,6 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
 
     /**
      * 查看单个购销合同页面
-     *
      */
     @Action(value = "contractAction_toview")
     public String toview() {
@@ -74,17 +67,9 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
 
     /**
      * 跳转新建购销合同页面
-     *
      */
     @Action(value = "contractAction_tocreate")
     public String tocreate() {
-        List<Contract> contractList = contractService.find(new Specification<Contract>() {
-            @Override
-            public Predicate toPredicate(Root<Contract> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get("state").as(Integer.class), 1);
-            }
-        });
-        super.put("contractList", contractList);
         return "tocreate";
     }
 
@@ -97,20 +82,11 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
 
     /**
      * 跳转修改购销合同页面
-     *
      */
     @Action(value = "contractAction_toupdate")
     public String toupdate() {
-        List<Contract> contractList = contractService.find(new Specification<Contract>() {
-            @Override
-            public Predicate toPredicate(Root<Contract> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get("state").as(Integer.class), 1);
-            }
-        });
         Contract contract = contractService.findOne(model.getId());
         super.push(contract);
-        contractList.remove(contract);
-        super.put("contractList", contractList);
         return "toupdate";
     }
 
@@ -118,6 +94,20 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
     @Action(value = "contractAction_update")
     public String update() {
         Contract contract = contractService.findOne(model.getId());
+        contract.setCustomName(model.getCustomName());
+        contract.setPrintStyle(model.getPrintStyle());
+        contract.setContractNo(model.getContractNo());
+        contract.setOfferor(model.getOfferor());
+        contract.setCheckBy(model.getCheckBy());
+        contract.setInputBy(model.getInputBy());
+        contract.setInspector(model.getInspector());
+        contract.setSigningDate(model.getSigningDate());
+        contract.setImportNum(model.getImportNum());
+        contract.setShipTime(model.getShipTime());
+        contract.setTradeTerms(model.getTradeTerms());
+        contract.setDeliveryPeriod(model.getDeliveryPeriod());
+        contract.setCrequest(model.getCrequest());
+        contract.setRemark(model.getRemark());
 
         contractService.saveOrUpdate(contract);
         return "tolist";
@@ -125,11 +115,38 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
 
     /**
      * 删除购销合同操作
-     *
      */
     @Action(value = "contractAction_delete")
     public String delete() {
         contractService.delete(model.getId().split(", "));
+        return "tolist";
+    }
+
+    /**
+     * 提交购销合同 审核通过操作
+     */
+    @Action(value = "contractAction_submit")
+    public String submit() {
+        String[] ids = model.getId().split(", ");
+        for (String id : ids) {
+            Contract contract = contractService.findOne(id);
+            contract.setState(1);
+            contractService.saveOrUpdate(contract);
+        }
+        return "tolist";
+    }
+
+    /**
+     * 提交购销合同 审核暂停操作
+     */
+    @Action(value = "contractAction_cancel")
+    public String cancel() {
+        String[] ids = model.getId().split(", ");
+        for (String id : ids) {
+            Contract contract = contractService.findOne(id);
+            contract.setState(0);
+            contractService.saveOrUpdate(contract);
+        }
         return "tolist";
     }
 
