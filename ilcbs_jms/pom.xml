@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>cn.tzs.ilcbs</groupId>
-            <artifactId>ilcbs_exception</artifactId>
+            <artifactId>ilcbs_exceptions</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
