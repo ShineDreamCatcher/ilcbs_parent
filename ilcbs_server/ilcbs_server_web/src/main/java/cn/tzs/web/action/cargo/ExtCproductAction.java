@@ -22,7 +22,7 @@ import java.util.List;
 @Results({
         @Result(name = "tocreate", location = "/WEB-INF/pages/cargo/contract/jExtCproductCreate.jsp"),
         @Result(name = "toupdate", location = "/WEB-INF/pages/cargo/contract/jExtCproductUpdate.jsp"),
-        @Result(name = "tolist", location = "extCproductAction_tocreate?contractProduct.id=${contractProduct.id}", type = "redirect")
+        @Result(name = "tolist", location = "extCproductAction_tocreate?contractProduct.id=${contractProduct.id}", type = "redirect")//&contractProduct.contract.id=${contractProduct.contract.id}
 })
 public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCproduct> {
 
@@ -40,6 +40,8 @@ public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCpro
      */
     @Action(value = "extCproductAction_tocreate")
     public String tocreate() {
+
+
         // 查询所有生产附件的厂商 factoryList 存入值栈中
         List<Factory> factoryList = factoryService.find(new Specification<Factory>() {
             @Override
@@ -50,23 +52,22 @@ public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCpro
                 //return cb.equal(root.get("ctype").as(String.class), "附件");
             }
         });
-        super.put("factoryList",factoryList);
+        super.put("factoryList", factoryList);
+
         // 货物的附件 page 压入栈顶
         org.springframework.data.domain.Page<ExtCproduct> jpaPage = extCproductService.findPage(new Specification<ExtCproduct>() {
             @Override
             public Predicate toPredicate(Root<ExtCproduct> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 //查找与货物id相等的附件
-                return cb.equal(root.get("contractProduct").get("id").as(String.class),model.getContractProduct().getId());
+                return cb.equal(root.get("contractProduct").get("id").as(String.class), model.getContractProduct().getId());
             }
         }, new PageRequest(this.page.getPageNo() - 1, this.page.getPageSize()));
 
         page.setTotalRecord(jpaPage.getTotalElements());
         page.setTotalPage(jpaPage.getTotalPages());
         page.setResults(jpaPage.getContent());
-        page.setUrl("extCproductAction_list");
+        page.setUrl("extCproductAction_tocreate");
         super.push(page);
-
-
         return "tocreate";
     }
 
@@ -74,6 +75,7 @@ public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCpro
     @Action(value = "extCproductAction_insert")
     public String insert() {
         extCproductService.saveOrUpdate(model);
+
         return "tolist";
     }
 
@@ -89,9 +91,10 @@ public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCpro
                 return cb.equal(root.get("ctype").as(String.class), "附件");
             }
         });
-        super.put("factoryList",factoryList);
+        super.put("factoryList", factoryList);
         ExtCproduct extCproduct = extCproductService.findOne(model.getId());
         super.push(extCproduct);
+
         return "toupdate";
     }
 
@@ -112,6 +115,7 @@ public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCpro
         extCproduct.setProductRequest(model.getProductRequest());
 
         extCproductService.saveOrUpdate(extCproduct);
+
         return "tolist";
     }
 
@@ -121,6 +125,7 @@ public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCpro
     @Action(value = "extCproductAction_delete")
     public String delete() {
         extCproductService.delete(model.getId().split(", "));
+
         return "tolist";
     }
 

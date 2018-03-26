@@ -1,8 +1,10 @@
 package cn.tzs.web.action.cargo;
 
 import cn.tzs.domain.Contract;
+import cn.tzs.domain.User;
 import cn.tzs.service.ContractService;
 import cn.tzs.utils.Page;
+import cn.tzs.utils.SysConstant;
 import cn.tzs.web.action.BaseAction;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.convention.annotation.Action;
@@ -42,9 +44,32 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
      */
     @Action(value = "contractAction_list")
     public String list() {
-
+        final User user = (User) session.get(SysConstant.CURRENT_USER_INFO);
+        //实现细粒度过滤
+        Specification<Contract> spec = new Specification<Contract>() {
+            @Override
+            public Predicate toPredicate(Root<Contract> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate predicate = null;
+                switch (user.getUserinfo().getDegree()) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        predicate = cb.equal(root.get("createDept").as(String.class),user.getDept().getId());
+                        break;
+                    default:
+                        predicate = cb.equal(root.get("createBy").as(String.class),user.getId());
+                        break;
+                }
+                return predicate;
+            }
+        };
+        //功能模块的查询
         Pageable pageable = new PageRequest(page.getPageNo() - 1, page.getPageSize());
-        org.springframework.data.domain.Page<Contract> jpaPage = contractService.findPage(null, pageable);
+        org.springframework.data.domain.Page<Contract> jpaPage = contractService.findPage(spec, pageable);
 
         page.setTotalPage(jpaPage.getTotalPages());
         page.setTotalRecord(jpaPage.getTotalElements());
@@ -76,6 +101,11 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
     //保存新建购销合同的操作
     @Action(value = "contractAction_insert")
     public String insert() {
+        //实现细粒度过滤
+        User user = (User) session.get(SysConstant.CURRENT_USER_INFO);
+        model.setCreateBy(user.getId());
+        model.setCreateDept(user.getDept().getId());
+        //实现功能
         contractService.saveOrUpdate(model);
         return "tolist";
     }

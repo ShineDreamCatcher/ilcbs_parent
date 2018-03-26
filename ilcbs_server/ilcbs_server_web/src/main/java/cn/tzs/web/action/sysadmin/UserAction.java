@@ -137,12 +137,13 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
     public String update() {
         User user = userService.findOne(model.getId());
 
-        if (user.getUserinfo() == null) {
-            model.getUserinfo().setId(model.getId());
-            user.setUserinfo(model.getUserinfo());
-        } else {
-            user.getUserinfo().setName(model.getUserinfo().getName());
-        }
+//        if (user.getUserinfo() == null) {
+//            model.getUserinfo().setId(model.getId());
+//            user.setUserinfo(model.getUserinfo());
+//        } else {
+//            user.getUserinfo().setName(model.getUserinfo().getName());
+//        }
+        user.setUserinfo(model.getUserinfo());
         user.getDept().setId(model.getDept().getId());
         user.setState(model.getState());
 
