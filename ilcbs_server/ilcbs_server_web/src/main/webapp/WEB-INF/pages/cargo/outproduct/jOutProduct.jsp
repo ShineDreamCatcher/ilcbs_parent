@@ -24,7 +24,7 @@
 
     <div class="textbox-title">
         <img src="${ctx }/skin/default/images/icon/folder_edit.png"/>
-        购销合同月统计（出货表）
+        购销合同月统计(出货表)
     </div>
 
 
@@ -34,7 +34,7 @@
                 <td class="columnTitle">船期：</td>
                 <td class="tableContent">
                     <input type="text" style="width:90px;" name="inputDate"
-                           value="2015-07"
+                           value="2015-01"
                            onclick="WdatePicker({el:this,isShowOthers:true,dateFmt:'yyyy-MM'});"/>
                 </td>
             </tr>

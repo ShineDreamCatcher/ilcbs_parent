@@ -91,4 +91,7 @@ public class ContractProductServiceImpl implements ContractProductService {
         return contractProductDao.findAll(spec, pageable);
     }
 
+    public List<ContractProduct> findCpByShipTime(String shipTime) {
+        return contractProductDao.findCpByShipTime(shipTime);
+    }
 }
