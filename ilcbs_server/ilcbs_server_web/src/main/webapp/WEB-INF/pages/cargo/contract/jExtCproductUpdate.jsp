@@ -47,7 +47,7 @@
                               listKey="id" listValue="factoryName"
                               onchange="setFactoryName(this.options[this.selectedIndex].text);"
                               headerKey="" headerValue="--请选择--"/>
-                    <input type="hidden" id="factoryName" name="factoryName" value=""/>
+                    <input type="hidden" id="factoryName" name="factoryName" value="${factoryName }"/>
                 </td>
                 <td class="columnTitle">货号：</td>
                 <td class="tableContentAuto"><input type="text" name="productNo" value="${productNo}"/>

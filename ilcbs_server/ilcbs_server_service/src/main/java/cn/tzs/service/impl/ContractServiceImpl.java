@@ -36,7 +36,7 @@ public class ContractServiceImpl implements ContractService {
 
 	public void saveOrUpdateAll(Collection<Contract> entitys) {//批量保存或更新
 		for (Contract contract : entitys) {
-			contractDao.save(contract);
+			saveOrUpdate(contract);
 		}
 	}
 
