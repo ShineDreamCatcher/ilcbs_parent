@@ -14,4 +14,7 @@ public interface ContractProductDao extends JpaRepository<ContractProduct, Strin
 
     @Query("from ContractProduct where to_char(contract.shipTime,'yyyy-MM')=?1")
     List<ContractProduct> findCpByShipTime(String shipTime);
+
+    @Query("from ContractProduct where contract.id in (?1)")
+    List<ContractProduct> findCpByContract(String[] contractIds);
 }
