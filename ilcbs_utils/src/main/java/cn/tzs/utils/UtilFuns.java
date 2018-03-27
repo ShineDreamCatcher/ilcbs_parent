@@ -134,8 +134,6 @@ public class UtilFuns {
      * <br>输入参数：String str 设置返回系统时间样式
      * <br>输入参数：String SplitFlag 设置分割字符
      * <br>输出参数：string[] 返回分割后的数组
-     * <br>作者：宋江
-     * <br>时间：2003-9-7
      * <br>用法：
      */
 /*
@@ -192,8 +190,6 @@ public class UtilFuns {
      * <br>输入参数：String aStr 要合并数组
      * <br>输入参数：String SplitFlag 设置分割字符
      * <br>输出参数：String 要合并数组
-     * <br>作者：宋江
-     * <br>时间：2004-1-9
      * <br>用法：
      */
 
@@ -231,8 +227,6 @@ public class UtilFuns {
      * <br>输入参数：String sSuffix 数组元素加的后缀
      * <br>输入参数：String SplitFlag 设置分割字符
      * <br>输出参数：String 合并后的字符串
-     * <br>作者：宋江
-     * <br>时间：2005-3-17
      * <br>用法：
      */
 
@@ -298,8 +292,6 @@ public class UtilFuns {
      * SysTime 功能：返回系统时间
      * <br>输入参数：int style 设置返回系统时间样式
      * <br>输出参数：string 返回系统时间样式
-     * <br>作者：宋江
-     * <br>时间：2003-6-24
      * <br>存在问题：中文乱码，但JSP中显示正常。
      */
     static public String SysTime(String strStyle) {
@@ -412,8 +404,6 @@ public class UtilFuns {
      * 功能：用于转换为null的字段。
      * <br>入参：String strvalue 设置要转换的字符串
      * <br>出参：不为“null”的返回原串；为“null”返回""。
-     * <br>作者：宋江
-     * <br>时间：2003-9-16
      * <p>用法：optionFuns.convertNull(String.valueOf(oi.next()))</p>
      */
     public static String convertNull(String strvalue) {
@@ -931,8 +921,6 @@ public class UtilFuns {
      * String[] values  需要输出的所有下拉列表框的内容所对应的值
      * String[] content 需要输出的所有下拉列表框的内容
      * <br>输出参数：返回下拉列表
-     * <br>修改：宋江
-     * <br>修改时间：2003-9-4
      * <br>注意事项：values和content数组个数必须相同.适合从数据库中取值
      * <%
      * String[] aContextOPERATE_TYPE = {"定检","轮换","抽检"};
@@ -987,8 +975,6 @@ public class UtilFuns {
      * String pattern 要转换的format
      * <br>输出参数：如果格式正确返回格式后的字符串。
      * 不正确返回系统日期。
-     * <br>作者：宋江
-     * <br>时间：2003-8-26
      */
     public static Timestamp StrToTimestamp(String timestampStr, String pattern) throws ParseException {
         Date date = null;
