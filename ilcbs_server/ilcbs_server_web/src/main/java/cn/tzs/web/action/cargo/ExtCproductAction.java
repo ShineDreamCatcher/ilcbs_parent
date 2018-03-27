@@ -22,7 +22,7 @@ import java.util.List;
 @Results({
         @Result(name = "tocreate", location = "/WEB-INF/pages/cargo/contract/jExtCproductCreate.jsp"),
         @Result(name = "toupdate", location = "/WEB-INF/pages/cargo/contract/jExtCproductUpdate.jsp"),
-        @Result(name = "tolist", location = "extCproductAction_tocreate?contractProduct.id=${contractProduct.id}", type = "redirect")//&contractProduct.contract.id=${contractProduct.contract.id}
+        @Result(name = "tolist", location = "extCproductAction_tocreate?contractProduct.id=${contractProduct.id}&contractProduct.contract.id=${contractProduct.contract.id}", type = "redirect")
 })
 public class ExtCproductAction extends BaseAction implements ModelDriven<ExtCproduct> {
 
