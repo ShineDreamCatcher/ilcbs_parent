@@ -27,6 +27,12 @@
 				<li><a href="${ctx}/cargo/outProductAction_toedit" onclick="linkHighlighted(this)" target="main" id="aa_1">出货表</a></li>
 				<li><a href="${ctx}/cargo/export/exportAction_contractList" onclick="linkHighlighted(this)" target="main" id="aa_1">合同查询</a></li>
 				<li><a href="${ctx}/cargo/export/exportAction_list.action" onclick="linkHighlighted(this)" target="main" id="aa_1">出口报运</a></li>
+
+                装箱管理	cargo/packingListAction_list
+                委托管理	cargo/shippingOrderAction_list
+                发票管理	cargo/invoiceAction_list
+                财务管理	cargo/financeAction_list
+
 			</ul> --%>
 			 <%@include file="../leftmenu.jsp" %> 
         </div>

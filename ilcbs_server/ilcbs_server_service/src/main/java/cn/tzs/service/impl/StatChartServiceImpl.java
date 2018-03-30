@@ -15,5 +15,14 @@ public class StatChartServiceImpl implements StatChartService {
 
     public List getFactorysaleData() {
         return statChartDao.getFactorysaleData();
+
+    }
+
+    public List<Object[]> getProductSaleData() {
+        return statChartDao.getProductSaleData();
+    }
+
+    public List<Object[]> getOnlineinfoData() {
+        return statChartDao.getOnlineinfoData();
     }
 }

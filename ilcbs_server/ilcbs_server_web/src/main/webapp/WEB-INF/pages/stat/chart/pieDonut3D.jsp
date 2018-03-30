@@ -6,6 +6,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>amCharts examples</title>
+    <script src="${pageContext.request.contextPath }/components/jquery-ui/jquery-1.2.6.js"
+            type="text/javascript"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/components/newAmcharts/style.css" type="text/css">
     <script src="${pageContext.request.contextPath }/components/newAmcharts/amcharts/amcharts.js"
             type="text/javascript"></script>
@@ -13,14 +15,16 @@
             type="text/javascript"></script>
 
     <script>
+
         $(function () {
+            var chart;
+
             $.ajax({
                 url: 'statChartAction_getFactorySaleData',
                 dataType: 'json',
                 type: 'get',
                 success: function (value) {
-                    var chart;
-                    var chartData = value;
+                    // alert("qqqq");
                     /* var chartData = [
                         {
                             "country": "United States",
@@ -31,8 +35,7 @@
                             "visits": 1882
                         }
                     ]; */
-
-
+                    var chartData = value;
                     // PIE CHART
                     chart = new AmCharts.AmPieChart();
 
@@ -51,15 +54,14 @@
                     // the following two lines makes the chart 3D
                     chart.depth3D = 10;
                     chart.angle = 15;
-
                     chart.creditsPosition = "top-right";
-
                     // WRITE
                     chart.write("chartdiv");
 
                 }
-            })
+            });
         });
+
 
 
         <%--var chart;--%>
@@ -72,35 +74,8 @@
         <%--{--%>
         <%--"country": "China",--%>
         <%--"visits": 1882--%>
-        <%--},--%>
-        <%--{--%>
-        <%--"country": "Japan",--%>
-        <%--"visits": 1809--%>
-        <%--},--%>
-        <%--{--%>
-        <%--"country": "Germany",--%>
-        <%--"visits": 1322--%>
-        <%--},--%>
-        <%--{--%>
-        <%--"country": "United Kingdom",--%>
-        <%--"visits": 1122--%>
-        <%--},--%>
-        <%--{--%>
-        <%--"country": "France",--%>
-        <%--"visits": 1114--%>
-        <%--},--%>
-        <%--{--%>
-        <%--"country": "India",--%>
-        <%--"visits": 984--%>
-        <%--},--%>
-        <%--{--%>
-        <%--"country": "Spain",--%>
-        <%--"visits": 711--%>
         <%--}--%>
         <%--]; */--%>
-
-
-
 
         <%--AmCharts.ready(function () {--%>
         <%--// PIE CHART--%>
@@ -123,7 +98,7 @@
         <%--chart.angle = 15;--%>
 
         <%--chart.creditsPosition = "top-right";--%>
-        <%----%>
+
         <%--// WRITE--%>
         <%--chart.write("chartdiv");--%>
         <%--});--%>

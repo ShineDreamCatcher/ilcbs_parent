@@ -6,4 +6,8 @@ public interface StatChartService {
 
 
     List getFactorysaleData();
+
+    List<Object[]> getProductSaleData();
+
+    List<Object[]> getOnlineinfoData();
 }
