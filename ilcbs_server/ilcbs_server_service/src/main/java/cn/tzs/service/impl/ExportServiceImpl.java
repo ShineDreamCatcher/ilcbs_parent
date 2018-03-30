@@ -41,11 +41,11 @@ public class ExportServiceImpl implements ExportService {
             for (String contractId : contractIds) {
                 Contract contract = contractDao.findOne(contractId);
                 contract.setState(2);
-                sb.append(contract.getContractNo()).append(",");
+                sb.append(contract.getContractNo()).append("，");
                 contractDao.save(contract);
             }
             //设置客户要求的合同编号集合
-            export.setCustomerContract(sb.toString());
+            export.setCustomerContract(sb.substring(0,sb.length()-1).toString());
 
 
             //利用 打断设计 跳跃查询 获取所有 购销合同下面的产品订单及附件
@@ -88,12 +88,19 @@ public class ExportServiceImpl implements ExportService {
     }
 
     public void deleteById(String id) {//根据id删除
+        Export export = exportDao.findOne(id);
+        String[] contractIds = export.getContractIds().split(", ");
+        for (String contractId : contractIds) {
+            Contract contract = contractDao.getOne(contractId);
+            contract.setState(1);
+            contractDao.save(contract);
+        }
         exportDao.delete(id);
     }
 
     public void delete(String[] ids) {//批量删除
         for (String id : ids) {
-            exportDao.delete(id);
+            deleteById(id);
         }
     }
 
@@ -107,4 +114,11 @@ public class ExportServiceImpl implements ExportService {
         return exportDao.findAll(spec, pageable);
     }
 
+    public void updateExportState(String[] ids, int state) {
+        for (String id : ids) {
+            Export export = exportDao.findOne(id);
+            export.setState(state);
+            exportDao.save(export);
+        }
+    }
 }

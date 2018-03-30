@@ -9,5 +9,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ExportService extends BaseService<Export> {
-	
+
+    void updateExportState(String[] ids, int state);
 }

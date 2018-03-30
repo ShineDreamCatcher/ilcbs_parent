@@ -3,6 +3,7 @@ package cn.tzs.web.action.cargo;
 import cn.tzs.domain.ContractProduct;
 import cn.tzs.service.ContractProductService;
 import cn.tzs.utils.DownloadUtil;
+import cn.tzs.utils.UtilFuns;
 import cn.tzs.web.action.BaseAction;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -39,7 +41,7 @@ public class OutProductAction extends BaseAction {
 
     //使用模板操作打印
     @Action("outProductAction_print")
-    public String print() throws IOException {
+    public String print() throws IOException, ParseException {
         //获取模板文件
         String filePath = ServletActionContext.getServletContext().getRealPath("/make/xlsprint/tOUTPRODUCT.xls");
         //String filePath = ServletActionContext.getServletContext().getRealPath("/make/xlsprint/tOUTPRODUCT.xlsx");
@@ -98,11 +100,11 @@ public class OutProductAction extends BaseAction {
             cell5.setCellStyle(style05);
 
             Cell cell6 = row.createCell(6);
-            cell6.setCellValue(contractProduct.getContract().getDeliveryPeriod());
+            cell6.setCellValue(UtilFuns.dateTimeFormat(contractProduct.getContract().getDeliveryPeriod()));
             cell6.setCellStyle(style06);
 
             Cell cell7 = row.createCell(7);
-            cell7.setCellValue(contractProduct.getContract().getShipTime());
+            cell7.setCellValue(UtilFuns.dateTimeFormat(contractProduct.getContract().getShipTime()));
             cell7.setCellStyle(style07);
 
             Cell cell8 = row.createCell(8);
@@ -123,7 +125,7 @@ public class OutProductAction extends BaseAction {
 
     //未使用模板，直接操作
     @Action("outProductAction_OldPrint")
-    public String OldPrint() throws IOException {
+    public String OldPrint() throws IOException, ParseException {
 
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet();
@@ -189,11 +191,11 @@ public class OutProductAction extends BaseAction {
             cell5.setCellStyle(text(book));
 
             Cell cell6 = row.createCell(6);
-            cell6.setCellValue(contractProduct.getContract().getDeliveryPeriod());
+            cell6.setCellValue(UtilFuns.dateTimeFormat(contractProduct.getContract().getDeliveryPeriod()));
             cell6.setCellStyle(text(book));
 
             Cell cell7 = row.createCell(7);
-            cell7.setCellValue(contractProduct.getContract().getShipTime());
+            cell7.setCellValue(UtilFuns.dateTimeFormat(contractProduct.getContract().getShipTime()));
             cell7.setCellStyle(text(book));
 
             Cell cell8 = row.createCell(8);

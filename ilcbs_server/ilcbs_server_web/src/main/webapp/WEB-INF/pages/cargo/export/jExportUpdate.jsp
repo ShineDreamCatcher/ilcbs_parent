@@ -10,10 +10,23 @@
 
     <script language="JavaScript">
         $(document).ready(function () {
-            ${mRecordData}
+            <%--${mRecordData}--%>
             //发送ajax请求-------------返回json------------后面就去组织数据（调用函数）
             //当进入更新页面时-----------直接获取服务器返回的串   [{"id":"1","productNo":""},{"id":"1","productNo":""},{"id":"1","productNo":""}]
+            //addTRRecord("mRecordTable", 'n.id', 'n.productNo', 'n.cnumber', 'n.grossWeight', 'n.netWeight', 'n.sizeLength',' n.sizeWidth', 'n.sizeHeight', 'n.exPrice', 'n.tax');
+            $.ajax({
+                url:'exportAction_getTableData?id=${id}',
+                type:'get',
+                dataType:'json',
+                success:function (value) {
+                    //alert(JSON.stringify(value));
+                    $.each(value,function (i,n) {
+                       // alert(n.cnumber);
+                        addTRRecord("mRecordTable", n.id, n.productNo, n.cnumber, n.grossWeight, n.netWeight, n.sizeLength, n.sizeWidth, n.sizeHeight, n.exPrice, n.tax)
+                    })
 
+                }
+            })
         });
 
 
@@ -95,8 +108,7 @@
             <div id="innerMenubar">
                 <div id="navMenubar">
                     <ul>
-                        <li id="save"><a href="#"
-                                         onclick="formSubmit('exportAction_update','_self');this.blur();">保存</a></li>
+                        <li id="save"><a href="#" onclick="formSubmit('exportAction_update','_self');this.blur();">保存</a></li>
                         <li id="back"><a href="#" onclick="history.go(-1);">返回</a></li>
                     </ul>
                 </div>
@@ -117,9 +129,7 @@
                 <td class="tableContent">${customerContract}</td>
                 <td class="columnTitle">制单日期：</td>
                 <td class="tableContent">
-                    <input type="text" style="width:90px;" name="inputDate"
-                           value="<fmt:formatDate value="${inputDate}" pattern="yyyy-MM-dd"/>"
-                           onclick="WdatePicker({el:this,isShowOthers:true,dateFmt:'yyyy-MM-dd'});"/>
+                    <input type="text" style="width:90px;" name="inputDate" value="<fmt:formatDate value="${inputDate}" pattern="yyyy-MM-dd"/>" onclick="WdatePicker({el:this,isShowOthers:true,dateFmt:'yyyy-MM-dd'});"/>
                 </td>
             </tr>
             <tr>

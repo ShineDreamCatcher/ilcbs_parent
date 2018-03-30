@@ -1,12 +1,15 @@
 package cn.tzs.web.action.cargo;
 
 import cn.tzs.domain.Contract;
+import cn.tzs.domain.ContractProduct;
 import cn.tzs.domain.User;
+import cn.tzs.service.ContractProductService;
 import cn.tzs.service.ContractService;
 import cn.tzs.utils.Page;
 import cn.tzs.utils.SysConstant;
 import cn.tzs.web.action.BaseAction;
 import com.opensymphony.xwork2.ModelDriven;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
@@ -20,6 +23,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Namespace("/cargo")
@@ -34,6 +38,8 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
 
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private ContractProductService contractProductService;
     //模型驱动
     private Contract model = new Contract();
     //属性驱动
@@ -58,10 +64,10 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
                     case 2:
                         break;
                     case 3:
-                        predicate = cb.equal(root.get("createDept").as(String.class),user.getDept().getId());
+                        predicate = cb.equal(root.get("createDept").as(String.class), user.getDept().getId());
                         break;
                     default:
-                        predicate = cb.equal(root.get("createBy").as(String.class),user.getId());
+                        predicate = cb.equal(root.get("createBy").as(String.class), user.getId());
                         break;
                 }
                 return predicate;
@@ -178,6 +184,22 @@ public class ContractAction extends BaseAction implements ModelDriven<Contract> 
             contractService.saveOrUpdate(contract);
         }
         return "tolist";
+    }
+
+    /**
+     * 购销合同 打印
+     */
+    @Action(value = "contractAction_print")
+    public String print() throws Exception {
+
+        ContractPrint contractPrint = new ContractPrint();
+        Contract contract = contractService.findOne(model.getId());
+        HttpServletResponse response= ServletActionContext.getResponse();
+        String path=ServletActionContext.getServletContext().getRealPath("/");
+
+        List<ContractProduct> cpList=contractProductService.findCpByContractOrderFactoryName(model.getId());
+        contractPrint.print(contract, cpList, path,  response);
+        return NONE;
     }
 
 

@@ -98,6 +98,7 @@
 	<!-- shiro 配置文件引入 -->
 	<import resource="classpath:applicationContext-shiro.xml"></import>
 	<import resource="classpath:applicationContext-mail.xml"></import>
+	<import resource="classpath:applicationContext_job.xml"></import>
 
 
 </beans>

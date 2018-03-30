@@ -17,4 +17,7 @@ public interface ContractProductDao extends JpaRepository<ContractProduct, Strin
 
     @Query("from ContractProduct where contract.id in (?1)")
     List<ContractProduct> findCpByContract(String[] contractIds);
+
+    @Query("from ContractProduct where contract.id = ?1 order by factoryName")
+    List<ContractProduct> findCpByContractOrderFactoryName(String cid);
 }

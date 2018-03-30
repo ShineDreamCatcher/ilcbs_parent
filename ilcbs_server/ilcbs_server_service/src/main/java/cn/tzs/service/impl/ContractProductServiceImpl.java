@@ -94,4 +94,8 @@ public class ContractProductServiceImpl implements ContractProductService {
     public List<ContractProduct> findCpByShipTime(String shipTime) {
         return contractProductDao.findCpByShipTime(shipTime);
     }
+
+    public List<ContractProduct> findCpByContractOrderFactoryName(String cid) {
+        return contractProductDao.findCpByContractOrderFactoryName(cid);
+    }
 }

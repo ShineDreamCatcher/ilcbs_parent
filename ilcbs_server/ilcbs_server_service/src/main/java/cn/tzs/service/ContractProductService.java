@@ -8,4 +8,6 @@ public interface ContractProductService extends BaseService<ContractProduct>{
 
 
     List<ContractProduct> findCpByShipTime(String shipTime);
+
+    List<ContractProduct> findCpByContractOrderFactoryName(String cid);
 }

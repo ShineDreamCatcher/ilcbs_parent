@@ -15,19 +15,12 @@
             <div id="innerMenubar">
                 <div id="navMenubar">
                     <ul>
-                        <li id="view"><a href="#"
-                                         onclick="formSubmit('exportAction_toview','_self');this.blur();">查看</a></li>
-                        <li id="update"><a href="#" onclick="formSubmit('exportAction_toupdate','_self');this.blur();">修改</a>
-                        </li>
-                        <li id="delete"><a href="#"
-                                           onclick="formSubmit('exportAction_delete','_self');this.blur();">删除</a></li>
-                        <li id="new"><a href="#" onclick="formSubmit('exportAction_submit','_self');this.blur();">提交</a>
-                        </li>
-                        <li id="new"><a href="#" onclick="formSubmit('exportAction_cancel','_self');this.blur();">取消</a>
-                        </li>
-                        <li id="work_assign"><a href="#"
-                                                onclick="formSubmit('exportAction_exportE','_self');this.blur();">电子报运</a>
-                        </li>
+                        <li id="view"><a href="#" onclick="formSubmit('exportAction_toview','_self');this.blur();">查看</a></li>
+                        <li id="update"><a href="#" onclick="formSubmit('exportAction_toupdate','_self');this.blur();">修改</a></li>
+                        <li id="delete"><a href="#" onclick="formSubmit('exportAction_delete','_self');this.blur();">删除</a></li>
+                        <li id="new"><a href="#" onclick="formSubmit('exportAction_submit','_self');this.blur();">提交</a></li>
+                        <li id="new"><a href="#" onclick="formSubmit('exportAction_cancel','_self');this.blur();">取消</a></li>
+                        <li id="work_assign"><a href="#" onclick="formSubmit('exportAction_exportE','_self');this.blur();">电子报运</a></li>
                     </ul>
                 </div>
             </div>

@@ -3,12 +3,17 @@ package cn.tzs.web.action.cargo;
 
 import cn.tzs.domain.Contract;
 import cn.tzs.domain.Export;
+import cn.tzs.domain.ExportProduct;
 import cn.tzs.exceotion.SysException;
 import cn.tzs.service.ContractService;
+import cn.tzs.service.ExportProductService;
 import cn.tzs.service.ExportService;
 import cn.tzs.utils.Page;
+import cn.tzs.utils.UtilFuns;
 import cn.tzs.web.action.BaseAction;
+import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ModelDriven;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
@@ -21,23 +26,32 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 @Namespace("/cargo")
 @Results({
         @Result(name = "contractList", location = "/WEB-INF/pages/cargo/export/jContractList.jsp"),
-        //@Result(name = "toview", location = "/WEB-INF/pages/cargo/export/jContractList.jsp"),
-        //@Result(name = "print", location = "/WEB-INF/pages/cargo/export/jContractList.jsp"),
+        //@Result(name = "toCView", location = "/WEB-INF/pages/cargo/contract/jContractView.jsp"),
+        //@Result(name = "cPrint", location = "/WEB-INF/pages/cargo/export/jContractList.jsp"),
         @Result(name = "tocreate", location = "/WEB-INF/pages/cargo/export/jExportCreate.jsp"),
         @Result(name = "list", location = "/WEB-INF/pages/cargo/export/jExportList.jsp"),
-        @Result(name = "tolist", location = "exportAction_list",type = "redirect")
+        @Result(name = "toview", location = "/WEB-INF/pages/cargo/export/jExportView.jsp"),
+        @Result(name = "toupdate", location = "/WEB-INF/pages/cargo/export/jExportUpdate.jsp"),
+        @Result(name = "tolist", location = "exportAction_list", type = "redirect")
 })
 public class ExportAction extends BaseAction implements ModelDriven<Export> {
 
     @Autowired
     private ExportService exportService;
     @Autowired
+    private ExportProductService exportProductService;
+    @Autowired
     private ContractService contractService;
-    private Export modle = new Export();
+    private Export model = new Export();
     private Page page = new Page();
 
     @Action("exportAction_contractList")
@@ -59,29 +73,34 @@ public class ExportAction extends BaseAction implements ModelDriven<Export> {
         return "contractList";
     }
 
-    @Action("contractAction_toview")
-    public String toview() throws SysException {
-        throw new SysException("还没有这个功能哦");
-//        return "toview";
-    }
+//    @Action("contractAction_toview")
+//    public String toCView() throws SysException {
+////        Contract contract = contractService.findOne(model.getId());
+////        super.push(contract);
+//        throw new SysException("还没有这个功能哦");
+////        return "toCView";
+//    }
+//
+//    @Action("contractAction_print")
+//    public String cPrint() throws SysException {
+//        throw new SysException("还没有这个功能哦");
+////        return "cPrint";
+//    }
 
-    @Action("contractAction_print")
-    public String print() throws SysException {
-        throw new SysException("还没有这个功能哦");
-//        return "print";
-    }
-
+    //跳转到添加报运页面
     @Action("exportAction_tocreate")
     public String tocreate() {
         return "tocreate";
     }
 
+    //添加海关报运单
     @Action("exportAction_insert")
     public String insert() {
-        exportService.saveOrUpdate(modle);
+        exportService.saveOrUpdate(model);
         return "tolist";
     }
 
+    //查看所有报运单
     @Action("exportAction_list")
     public String list() {
         org.springframework.data.domain.Page<Export> jpaPage = exportService.findPage(
@@ -96,20 +115,189 @@ public class ExportAction extends BaseAction implements ModelDriven<Export> {
         return "list";
     }
 
+    //查看当报运单
+    @Action("exportAction_toview")
+    public String toview() throws SysException {
+        Export export = exportService.findOne(model.getId());
+        super.push(export);
+        return "toview";
+    }
 
+    @Action("exportAction_toupdate")
+    public String toupdate() throws SysException {
+        Export export = exportService.findOne(model.getId());
+        super.push(export);
+        return "toupdate";
+    }
+
+    @Action("exportAction_getTableData")
+    public String getTableData() throws SysException, IOException {
+        Export export = exportService.findOne(model.getId());
+        ArrayList<HashMap<String, Object>> returnList = new ArrayList<HashMap<String, Object>>();
+        //获取报运单对象
+        Set<ExportProduct> exportProducts = export.getExportProducts();
+        for (ExportProduct exportProduct : exportProducts) {
+            // "id", "productNo", "cnumber", "grossWeight", "netWeight", "sizeLength", "sizeWidth", "sizeHeight", "exPrice", "tax"
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", exportProduct.getId());
+            map.put("productNo", exportProduct.getProductNo());
+            map.put("cnumber", UtilFuns.convertNull(exportProduct.getCnumber()));
+            map.put("grossWeight", UtilFuns.convertNull(exportProduct.getGrossWeight()));
+            map.put("netWeight", UtilFuns.convertNull(exportProduct.getNetWeight()));
+            map.put("sizeLength", UtilFuns.convertNull(exportProduct.getSizeLength()));
+            map.put("sizeWidth", UtilFuns.convertNull(exportProduct.getSizeWidth()));
+            map.put("sizeHeight", UtilFuns.convertNull(exportProduct.getSizeHeight()));
+            map.put("exPrice", UtilFuns.convertNull(exportProduct.getExPrice()));
+            map.put("tax", UtilFuns.convertNull(exportProduct.getTax()));
+            returnList.add(map);
+        }
+        // 返回json数据
+        String s = JSON.toJSONString(returnList);
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setCharacterEncoding("utf-8");
+//        response.getWriter().write(s.replaceAll("\"","'"));
+        response.getWriter().write(s);
+
+        return NONE;
+    }
+
+    //此方法用到的属性驱动
+    private String[] mr_id;
+    private String[] mr_changed;
+    private Integer[] mr_cnumber;
+    private Double[] mr_grossWeight;
+    private Double[] mr_netWeight;
+    private Double[] mr_sizeLength;
+    private Double[] mr_sizeWidth;
+    private Double[] mr_sizeHeight;
+    private Double[] mr_exPrice;
+    private Double[] mr_tax;
+    @Action("exportAction_update")
+    public String update() throws SysException {
+        // 1.完成出口报运单修改
+        Export export = exportService.findOne(model.getId());
+        export.setInputDate(model.getInputDate());
+        export.setLcno(model.getLcno());
+        export.setConsignee(model.getConsignee());
+        export.setShipmentPort(model.getShipmentPort());
+        export.setDestinationPort(model.getDestinationPort());
+        export.setTransportMode(model.getTransportMode());
+        export.setPriceCondition(model.getPriceCondition());
+        export.setMarks(model.getMarks());
+        export.setRemark(model.getRemark());
+
+        exportService.saveOrUpdate(export);
+
+        // 2.完成出口报运单货物修改
+        for (int i = 0; i < mr_changed.length; i++) {
+            if (mr_changed[i].equals("1")) {
+                ExportProduct ep = exportProductService.findOne(mr_id[i]);
+                ep.setCnumber(mr_cnumber[i]);
+                ep.setGrossWeight(mr_grossWeight[i]);
+                ep.setNetWeight(mr_netWeight[i]);
+                ep.setSizeLength(mr_sizeLength[i]);
+                ep.setSizeWidth(mr_sizeWidth[i]);
+                ep.setSizeHeight(mr_sizeHeight[i]);
+                ep.setExPrice(mr_exPrice[i]);
+                ep.setTax(mr_tax[i]);
+                exportProductService.saveOrUpdate(ep);
+            }
+        }
+        return "tolist";
+    }
+
+    @Action("exportAction_delete")
+    public String delete() throws SysException {
+        String[] ids = model.getId().split(", ");
+        exportService.delete(ids);
+        return "tolist";
+    }
+
+    @Action("exportAction_submit")
+    public String submit() throws SysException {
+        String[] ids = model.getId().split(", ");
+        exportService.updateExportState(ids, 1);
+        return "tolist";
+    }
+
+    @Action("exportAction_cancel")
+    public String cancel() throws SysException {
+        String[] ids = model.getId().split(", ");
+        exportService.updateExportState(ids, 0);
+        return "tolist";
+    }
+
+//////////////////////////get/set/////////////////////////////////////
     public Page getPage() {
         return page;
     }
-
     public void setPage(Page page) {
         this.page = page;
     }
-
     public Export getModel() {
-        return modle;
+        return model;
     }
-
-    public void setModle(Export modle) {
-        this.modle = modle;
+    public void setModel(Export model) {
+        this.model = model;
+    }
+    public String[] getMr_id() {
+        return mr_id;
+    }
+    public void setMr_id(String[] mr_id) {
+        this.mr_id = mr_id;
+    }
+    public String[] getMr_changed() {
+        return mr_changed;
+    }
+    public void setMr_changed(String[] mr_changed) {
+        this.mr_changed = mr_changed;
+    }
+    public Integer[] getMr_cnumber() {
+        return mr_cnumber;
+    }
+    public void setMr_cnumber(Integer[] mr_cnumber) {
+        this.mr_cnumber = mr_cnumber;
+    }
+    public Double[] getMr_grossWeight() {
+        return mr_grossWeight;
+    }
+    public void setMr_grossWeight(Double[] mr_grossWeight) {
+        this.mr_grossWeight = mr_grossWeight;
+    }
+    public Double[] getMr_netWeight() {
+        return mr_netWeight;
+    }
+    public void setMr_netWeight(Double[] mr_netWeight) {
+        this.mr_netWeight = mr_netWeight;
+    }
+    public Double[] getMr_sizeLength() {
+        return mr_sizeLength;
+    }
+    public void setMr_sizeLength(Double[] mr_sizeLength) {
+        this.mr_sizeLength = mr_sizeLength;
+    }
+    public Double[] getMr_sizeWidth() {
+        return mr_sizeWidth;
+    }
+    public void setMr_sizeWidth(Double[] mr_sizeWidth) {
+        this.mr_sizeWidth = mr_sizeWidth;
+    }
+    public Double[] getMr_sizeHeight() {
+        return mr_sizeHeight;
+    }
+    public void setMr_sizeHeight(Double[] mr_sizeHeight) {
+        this.mr_sizeHeight = mr_sizeHeight;
+    }
+    public Double[] getMr_exPrice() {
+        return mr_exPrice;
+    }
+    public void setMr_exPrice(Double[] mr_exPrice) {
+        this.mr_exPrice = mr_exPrice;
+    }
+    public Double[] getMr_tax() {
+        return mr_tax;
+    }
+    public void setMr_tax(Double[] mr_tax) {
+        this.mr_tax = mr_tax;
     }
 }
