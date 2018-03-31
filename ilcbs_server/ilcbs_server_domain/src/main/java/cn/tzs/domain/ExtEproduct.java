@@ -62,63 +62,54 @@ public class ExtEproduct implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	
 	public String getProductNo() {
 		return this.productNo;
 	}
 	public void setProductNo(String productNo) {
 		this.productNo = productNo;
-	}	
-	
+	}
 	public String getProductImage() {
 		return this.productImage;
 	}
 	public void setProductImage(String productImage) {
 		this.productImage = productImage;
-	}	
-	
+	}
 	public String getProductDesc() {
 		return this.productDesc;
 	}
 	public void setProductDesc(String productDesc) {
 		this.productDesc = productDesc;
-	}	
-	
+	}
 	public Integer getCnumber() {
 		return this.cnumber;
 	}
 	public void setCnumber(Integer cnumber) {
 		this.cnumber = cnumber;
-	}	
-	
+	}
 	public String getPackingUnit() {
 		return this.packingUnit;
 	}
 	public void setPackingUnit(String packingUnit) {
 		this.packingUnit = packingUnit;
-	}	
-	
+	}
 	public Double getPrice() {
 		return this.price;
 	}
 	public void setPrice(Double price) {
 		this.price = price;
-	}	
-	
+	}
 	public Double getAmount() {
 		return this.amount;
 	}
 	public void setAmount(Double amount) {
 		this.amount = amount;
-	}	
-	
+	}
 	public String getProductRequest() {
 		return this.productRequest;
 	}
 	public void setProductRequest(String productRequest) {
 		this.productRequest = productRequest;
-	}	
-	
+	}
 	public Integer getOrderNo() {
 		return this.orderNo;
 	}

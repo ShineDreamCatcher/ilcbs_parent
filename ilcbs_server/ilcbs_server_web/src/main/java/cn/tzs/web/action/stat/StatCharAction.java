@@ -120,7 +120,7 @@ public class StatCharAction extends BaseAction {
         }
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("oTime", time);
-        map.put("oTimea", times);
+        map.put("oTimes", times);
 
         String json = JSON.toJSONString(map);
 

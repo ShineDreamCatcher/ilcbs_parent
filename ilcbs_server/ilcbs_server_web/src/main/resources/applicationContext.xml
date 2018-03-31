@@ -99,6 +99,7 @@
 	<import resource="classpath:applicationContext-shiro.xml"></import>
 	<import resource="classpath:applicationContext-mail.xml"></import>
 	<import resource="classpath:applicationContext_job.xml"></import>
+	<import resource="classpath:applicationContext-ws-client.xml"/>
 
 
 </beans>

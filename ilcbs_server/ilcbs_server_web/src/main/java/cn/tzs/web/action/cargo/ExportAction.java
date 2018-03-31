@@ -5,6 +5,8 @@ import cn.tzs.domain.Contract;
 import cn.tzs.domain.Export;
 import cn.tzs.domain.ExportProduct;
 import cn.tzs.exceotion.SysException;
+import cn.tzs.export.webservice.Exception_Exception;
+import cn.tzs.export.webservice.IEpService;
 import cn.tzs.service.ContractService;
 import cn.tzs.service.ExportProductService;
 import cn.tzs.service.ExportService;
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 @Namespace("/cargo")
@@ -44,6 +47,9 @@ import java.util.Set;
         @Result(name = "tolist", location = "exportAction_list", type = "redirect")
 })
 public class ExportAction extends BaseAction implements ModelDriven<Export> {
+
+    @Autowired
+    private IEpService iEpService;      //webService接口
 
     @Autowired
     private ExportService exportService;
@@ -172,6 +178,7 @@ public class ExportAction extends BaseAction implements ModelDriven<Export> {
     private Double[] mr_sizeHeight;
     private Double[] mr_exPrice;
     private Double[] mr_tax;
+
     @Action("exportAction_update")
     public String update() throws SysException {
         // 1.完成出口报运单修改
@@ -227,7 +234,65 @@ public class ExportAction extends BaseAction implements ModelDriven<Export> {
         return "tolist";
     }
 
-//////////////////////////get/set/////////////////////////////////////
+    /**
+     * 海关报运
+     * @return
+     * @throws SysException
+     */
+    @Action("exportAction_exportE")
+    public String exportE() throws SysException, Exception_Exception {
+        Export export = exportService.findOne(model.getId());
+        HashMap<String, Object> toJkMap = new HashMap<String, Object>();
+        toJkMap.put("exportId", export.getId());
+        toJkMap.put("state", export.getState());
+        toJkMap.put("remark", export.getRemark());
+        toJkMap.put("inputDate", export.getInputDate());
+        toJkMap.put("shipmentPort", export.getShipmentPort());
+        toJkMap.put("destinationPort", export.getDestinationPort());
+        toJkMap.put("transportMode", export.getTransportMode());
+        toJkMap.put("priceCondition", export.getPriceCondition());
+
+        Set<ExportProduct> exportProducts = export.getExportProducts();
+        ArrayList<HashMap<String, Object>> toMap = new ArrayList<HashMap<String, Object>>();
+        for (ExportProduct exportProduct : exportProducts) {
+            HashMap<String, Object> epMap = new HashMap<String, Object>();
+            epMap.put("exportProductId", exportProduct.getId());
+            epMap.put("factoryId", exportProduct.getFactory().getId());
+            epMap.put("productNo", exportProduct.getProductNo());
+            epMap.put("packingUnit", exportProduct.getPackingUnit());
+            epMap.put("cnumber", exportProduct.getCnumber());
+
+            toMap.add(epMap);
+        }
+        toJkMap.put("products", toMap);
+
+        //
+        String toJSONString = JSON.toJSONString(toJkMap);
+        System.out.println(toJSONString);
+        String returnJsonString = iEpService.exportE(toJSONString);
+        System.out.println("====================返回的json数据====================="+returnJsonString);
+        /**
+         * { exportId:"", state:"", remark:"", products:[ { exportProductId:"",tax:"" }, { exportProductId:"", tax:"" } ] }
+         *
+         */
+        //HashMap returnMap = JSON.toJavaObject(returnJsonString, HashMap.class);
+        HashMap jkExport = JSON.parseObject(returnJsonString, HashMap.class);
+        Export dbExport = exportService.findOne(jkExport.get("exportId").toString());
+        dbExport.setState(Integer.parseInt(jkExport.get("state").toString()));
+        dbExport.setRemark(jkExport.get("remark").toString());
+        exportService.saveOrUpdate(dbExport);
+
+        List<HashMap> dbExportProducts = JSON.parseArray(jkExport.get("products").toString(), HashMap.class);
+        for (HashMap exportProduct : dbExportProducts) {
+            ExportProduct dbExportProduct = exportProductService.findOne(exportProduct.get("exportProductId").toString());
+            dbExportProduct.setTax(Double.parseDouble(exportProduct.get("tax").toString()));
+            exportProductService.saveOrUpdate(dbExportProduct);
+        }
+        return "tolist";
+    }
+
+
+    //////////////////////////get/set/////////////////////////////////////
     public Page getPage() {
         return page;
     }
@@ -300,4 +365,5 @@ public class ExportAction extends BaseAction implements ModelDriven<Export> {
     public void setMr_tax(Double[] mr_tax) {
         this.mr_tax = mr_tax;
     }
+
 }

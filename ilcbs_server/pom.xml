@@ -18,6 +18,7 @@
         <module>ilcbs_server_dao</module>
         <module>ilcbs_server_service</module>
         <module>ilcbs_server_domain</module>
+        <module>ilcbs_server_jk_client</module>
     </modules>
 
     <distributionManagement>

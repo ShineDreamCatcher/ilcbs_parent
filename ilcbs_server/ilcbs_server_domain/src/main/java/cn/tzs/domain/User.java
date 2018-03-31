@@ -58,55 +58,42 @@ public class User extends BaseEntity {
     public Set<Role> getRoles() {
         return roles;
     }
-
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public Dept getDept() {
         return dept;
     }
-
     public void setDept(Dept dept) {
         this.dept = dept;
     }
-
     public String getUserName() {
         return userName;
     }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
-
     public Integer getState() {
         return state;
     }
-
     public void setState(Integer state) {
         this.state = state;
     }
-
     public Userinfo getUserinfo() {
         return userinfo;
     }
-
     public void setUserinfo(Userinfo userinfo) {
         this.userinfo = userinfo;
     }

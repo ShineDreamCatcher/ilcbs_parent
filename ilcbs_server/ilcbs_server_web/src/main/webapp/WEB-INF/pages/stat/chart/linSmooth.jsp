@@ -7,7 +7,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>amCharts examples</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/components/newAmcharts/style.css" type="text/css">
-    <script src="${pageContext.request.contextPath }/components/jquery-ui/jquery-1.2.6.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath }/components/jquery-ui/jquery-1.2.6.js"
+            type="text/javascript"></script>
     <script src="${pageContext.request.contextPath }/components/eCharts/echarts.min.js" type="text/javascript"></script>
 
     <script>
@@ -17,7 +18,7 @@
                 dataType: 'json',
                 type: 'get',
                 success: function (oValue) {
-                    alert(oValue.oTimeStart);
+                    //alert(oValue.oTimeStart);
                     var myChart = echarts.init(document.getElementById('chartdiv'));
                     option = {
                         title: {
@@ -27,7 +28,7 @@
                             trigger: 'axis'
                         },
                         legend: {
-                            data:['系统访问压力图']
+                            data: ['系统访问压力图']
                         },
                         grid: {
                             left: '3%',
@@ -57,8 +58,8 @@
                                 // type:'line',
                                 // stack: '总量',
                                 // data:oValue.oTimes
-                                name:'系统访问压力图',
-                                type:'line',
+                                name: '系统访问压力图',
+                                type: 'line',
                                 stack: '总量',
                                 data: oValue.oTimes
                             }

@@ -100,106 +100,90 @@ public class Export implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
 	public Date getInputDate() {
 		return this.inputDate;
 	}
 	public void setInputDate(Date inputDate) {
 		this.inputDate = inputDate;
-	}	
-	
+	}
 	public String getContractIds() {
 		return this.contractIds;
 	}
 	public void setContractIds(String contractIds) {
 		this.contractIds = contractIds;
-	}	
-	
+	}
 	public String getCustomerContract() {
 		return this.customerContract;
 	}
 	public void setCustomerContract(String customerContract) {
 		this.customerContract = customerContract;
-	}	
-	
+	}
 	public String getLcno() {
 		return this.lcno;
 	}
 	public void setLcno(String lcno) {
 		this.lcno = lcno;
-	}	
-	
+	}
 	public String getConsignee() {
 		return this.consignee;
 	}
 	public void setConsignee(String consignee) {
 		this.consignee = consignee;
-	}	
-	
+	}
 	public String getMarks() {
 		return this.marks;
 	}
 	public void setMarks(String marks) {
 		this.marks = marks;
-	}	
-	
+	}
 	public String getShipmentPort() {
 		return this.shipmentPort;
 	}
 	public void setShipmentPort(String shipmentPort) {
 		this.shipmentPort = shipmentPort;
-	}	
-	
+	}
 	public String getDestinationPort() {
 		return this.destinationPort;
 	}
 	public void setDestinationPort(String destinationPort) {
 		this.destinationPort = destinationPort;
-	}	
-	
+	}
 	public String getTransportMode() {
 		return this.transportMode;
 	}
 	public void setTransportMode(String transportMode) {
 		this.transportMode = transportMode;
-	}	
-	
+	}
 	public String getPriceCondition() {
 		return this.priceCondition;
 	}
 	public void setPriceCondition(String priceCondition) {
 		this.priceCondition = priceCondition;
-	}	
-	
+	}
 	public String getRemark() {
 		return this.remark;
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}	
-	
+	}
 	public Integer getBoxNums() {
 		return this.boxNums;
 	}
 	public void setBoxNums(Integer boxNums) {
 		this.boxNums = boxNums;
-	}	
-	
+	}
 	public Double getGrossWeights() {
 		return this.grossWeights;
 	}
 	public void setGrossWeights(Double grossWeights) {
 		this.grossWeights = grossWeights;
-	}	
-	
+	}
 	public Double getMeasurements() {
 		return this.measurements;
 	}
 	public void setMeasurements(Double measurements) {
 		this.measurements = measurements;
-	}	
-	
+	}
 	public Integer getState() {
 		return this.state;
 	}
