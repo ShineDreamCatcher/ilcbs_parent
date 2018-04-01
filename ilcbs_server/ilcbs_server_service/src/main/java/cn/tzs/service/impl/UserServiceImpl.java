@@ -4,7 +4,6 @@ import cn.tzs.dao.UserDao;
 import cn.tzs.domain.User;
 import cn.tzs.service.UserService;
 import cn.tzs.utils.UtilFuns;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // 授权操作 过滤器链 注解方式配置
-    @RequiresPermissions("部门管理")
+    //@RequiresPermissions("部门管理")
     public List<User> find(Specification<User> spec) {
         return userDao.findAll(spec);
     }

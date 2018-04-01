@@ -275,7 +275,6 @@ public class ExportAction extends BaseAction implements ModelDriven<Export> {
          * { exportId:"", state:"", remark:"", products:[ { exportProductId:"",tax:"" }, { exportProductId:"", tax:"" } ] }
          *
          */
-        //HashMap returnMap = JSON.toJavaObject(returnJsonString, HashMap.class);
         HashMap jkExport = JSON.parseObject(returnJsonString, HashMap.class);
         Export dbExport = exportService.findOne(jkExport.get("exportId").toString());
         dbExport.setState(Integer.parseInt(jkExport.get("state").toString()));

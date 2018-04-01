@@ -29,13 +29,16 @@ import java.util.List;
 @Namespace("/cargo")
 @Results({
         @Result(name = "list", location = "/WEB-INF/pages/cargo/packinglist/jPackingListListPage.jsp"),
-        @Result(name = "tolist", location = "contractAction_list", type = "redirect")
+        @Result(name = "toView", location = "/WEB-INF/pages/cargo/packinglist/jPackingListView.jsp"),
+        @Result(name = "toCreate", location = "/WEB-INF/pages/cargo/packinglist/jPackingListCreate.jsp"),
+        @Result(name = "toUpdate", location = "/WEB-INF/pages/cargo/packinglist/jPackingListUpdate.jsp"),
+        @Result(name = "toList", location = "packingListAction_list", type = "redirect")
 })
 public class PackingListAction extends BaseAction {
 
 
     /**
-     *
+     *  装箱管理查看所有页面
      */
     @Action(value = "packingListAction_list")
     public String list() {
@@ -43,6 +46,41 @@ public class PackingListAction extends BaseAction {
         return "list";
     }
 
+    /**
+     *  装箱管理查看单个页面
+     */
+    @Action(value = "packingListAction_toview")
+    public String toView() {
+
+        return "toView";
+    }
+
+    /**
+     *  装箱管理新增页面
+     */
+    @Action(value = "packingListAction_tocreate")
+    public String toCreate() {
+
+        return "toCreate";
+    }
+
+    /**
+     *  装箱管理修改页面
+     */
+    @Action(value = "packingListAction_toupdate")
+    public String toUpdate() {
+
+        return "toUpdate";
+    }
+
+    /**
+     *  装箱管理删除页面
+     */
+    @Action(value = "packingListAction_delete")
+    public String delete() {
+
+        return "toList";
+    }
 
 
 }

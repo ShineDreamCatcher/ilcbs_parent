@@ -52,7 +52,7 @@ public class DeptServiceImpl implements DeptService {
 
     public void delete(String[] ids) {
         for (String id : ids) {
-            deptDao.delete(id);
+            deleteById(id);
         }
     }
 }
